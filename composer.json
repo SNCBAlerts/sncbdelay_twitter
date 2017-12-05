@@ -1,0 +1,27 @@
+{
+  "name": "drupol/sncbdelay_twitter",
+  "type": "symfony-bundle",
+  "description": "TODO",
+  "authors": [
+    {
+      "name": "Pol Dellaiera",
+      "email": "pol.dellaiera@protonmail.com"
+    }
+  ],
+  "require": {
+    "ext-mbstring": "*",
+    "symfony/framework-bundle": "~2.7|~3.0|^4.0",
+    "abraham/twitteroauth": "^0.7.2",
+    "twig/twig": "^2.4",
+    "kylewm/brevity": "^0.2.10"
+  },
+  "autoload": {
+    "psr-4": {
+      "drupol\\sncbdelay_twitter\\": ""
+    }
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.8",
+    "phpspec/phpspec": "^4.2"
+  }
+}
