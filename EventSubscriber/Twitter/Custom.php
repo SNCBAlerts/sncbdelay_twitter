@@ -10,20 +10,21 @@ class Custom extends AbstractTwitterCustomEventSubscriber
     /**
      * @param \Symfony\Component\EventDispatcher\Event $event
      *
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      *
      * @return mixed
      */
     public function getMessage(Event $event)
     {
-        $message = $event->getStorage()['message'];
-        $twig = $this->getContainer()->get('twig');
-
-        return $twig->render(
+        return $this->twig->render(
             '@SNCBDelayTwitter/custom.twig',
             [
-                'message' => $message,
+                'message' => $event->getStorage()['message'],
             ]
         );
     }

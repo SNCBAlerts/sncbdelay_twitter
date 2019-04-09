@@ -33,9 +33,9 @@ abstract class AbstractTwitterCanceledEventSubscriber extends AbstractTwitterEve
         $cache2 = $this->cache->getItem($uniqid2)->expiresAfter(new \DateInterval('PT10M'));
 
         if (
+            $departure['time'] > $currentTime &&
             !$cache1->isHit() &&
             !$cache2->isHit() &&
-            $departure['time'] > $currentTime &&
             abs($departure['time'] - $currentTime) <= 2400
         ) {
             $this->process($event);

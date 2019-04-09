@@ -23,13 +23,13 @@ services:
         public: true
 
     drupol\sncbdelay_twitter\EventSubscriber\Twitter\Alert:
-        arguments: ['@service_container', '@twig', '@logger', '@cache.app', '@doctrine.orm.entity_manager']
+        arguments: ['@sncbdelay_twitter.twitter', '@sncbdelay_twitter.brevity', '@parameter_bag', '@twig', '@logger', '@cache.app', '@doctrine.orm.entity_manager']
 
     drupol\sncbdelay_twitter\EventSubscriber\Twitter\Delay:
-        arguments: ['@service_container', '@twig', '@logger', '@cache.app', '@doctrine.orm.entity_manager']
+        arguments: ['@sncbdelay_twitter.twitter', '@sncbdelay_twitter.brevity', '@parameter_bag', '@twig', '@logger', '@cache.app', '@doctrine.orm.entity_manager']
 
     drupol\sncbdelay_twitter\EventSubscriber\Twitter\Canceled:
-        arguments: ['@service_container', '@twig', '@logger', '@cache.app', '@doctrine.orm.entity_manager']
+        arguments: ['@sncbdelay_twitter.twitter', '@sncbdelay_twitter.brevity', '@parameter_bag', '@twig', '@logger', '@cache.app', '@doctrine.orm.entity_manager']
 
     drupol\sncbdelay_twitter\EventSubscriber\Twitter\Custom:
-        arguments: ['@service_container', '@twig', '@logger', '@cache.app', '@doctrine.orm.entity_manager']
+        arguments: ['@sncbdelay_twitter.twitter', '@sncbdelay_twitter.brevity', '@parameter_bag', '@twig', '@logger', '@cache.app', '@doctrine.orm.entity_manager']

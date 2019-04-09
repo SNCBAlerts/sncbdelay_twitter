@@ -10,8 +10,12 @@ class Delay extends AbstractTwitterDelayEventSubscriber
     /**
      * @param \Symfony\Component\EventDispatcher\Event $event
      *
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      *
      * @return mixed
      */
@@ -23,9 +27,7 @@ class Delay extends AbstractTwitterDelayEventSubscriber
 
         date_default_timezone_set('Europe/Brussels');
 
-        $twig = $this->getContainer()->get('twig');
-
-        return $twig->render(
+        return $this->twig->render(
             '@SNCBDelayTwitter/delay.twig',
             [
                 'train' => $departure['vehicle'],

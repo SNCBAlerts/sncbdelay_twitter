@@ -10,8 +10,12 @@ class Alert extends AbstractTwitterAlertEventSubscriber
     /**
      * @param \Symfony\Component\EventDispatcher\Event $event
      *
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      *
      * @return mixed
      */
@@ -20,9 +24,7 @@ class Alert extends AbstractTwitterAlertEventSubscriber
         $disturbance = $event->getStorage()['disturbance'];
         date_default_timezone_set('Europe/Brussels');
 
-        $twig = $this->getContainer()->get('twig');
-
-        return $twig->render(
+        return $this->twig->render(
             '@SNCBDelayTwitter/alert.twig',
             [
                 'title' => strip_tags($disturbance['title']),

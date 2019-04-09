@@ -2,12 +2,15 @@
 
 namespace drupol\sncbdelay_twitter\EventSubscriber;
 
+use Abraham\TwitterOAuth\TwitterOAuth;
 use Doctrine\ORM\EntityManager;
 use drupol\sncbdelay\EventSubscriber\AbstractEventSubscriber;
+use Kylewm\Brevity\Brevity;
 use Psr\Cache\CacheItemPoolInterface;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\EventDispatcher\Event;
+use Twig\Environment;
 
 abstract class AbstractTwitterEventSubscriber extends AbstractEventSubscriber
 {
@@ -24,19 +27,20 @@ abstract class AbstractTwitterEventSubscriber extends AbstractEventSubscriber
     /**
      * AbstractTwitterDelayEventSubscriber constructor.
      *
-     * @param \Psr\Container\ContainerInterface $container
-     * @param \Twig_Environment $twig
+     * @param \Abraham\TwitterOAuth\TwitterOAuth $twitter
+     * @param \Kylewm\Brevity\Brevity $brevity
+     * @param \Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface $parameters
+     * @param \Twig\Environment $twig
      * @param \Psr\Log\LoggerInterface $logger
+     * @param \Psr\Cache\CacheItemPoolInterface $cache
      * @param \Doctrine\ORM\EntityManager $doctrine
-     *
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function __construct(ContainerInterface $container, \Twig_Environment $twig, LoggerInterface $logger, CacheItemPoolInterface $cache, EntityManager $doctrine)
+    public function __construct(TwitterOAuth $twitter, Brevity $brevity, ContainerBagInterface $parameters, Environment $twig, LoggerInterface $logger, CacheItemPoolInterface $cache, EntityManager $doctrine)
     {
-        $this->twitter = $container->get('sncbdelay_twitter.twitter');
-        $this->brevity = $container->get('sncbdelay_twitter.brevity');
-        parent::__construct($container, $twig, $logger, $cache, $doctrine);
+        $this->twitter = $twitter;
+        $this->brevity = $brevity;
+
+        parent::__construct($parameters, $twig, $logger, $cache, $doctrine);
     }
 
     /**
@@ -46,13 +50,10 @@ abstract class AbstractTwitterEventSubscriber extends AbstractEventSubscriber
     {
         $station = $event->getStorage()['station'];
 
-        $lat = floatval($station['locationY']);
-        $long = floatval($station['locationX']);
-
         $twitter = [
             'status' => $this->shortenMessage($this->getMessage($event)),
-            'lat' => $lat,
-            'long' => $long,
+            'lat' => (float) $station['locationY'],
+            'long' => (float) $station['locationX'],
             'display_coordinates' => 'true',
         ];
 
@@ -61,7 +62,7 @@ abstract class AbstractTwitterEventSubscriber extends AbstractEventSubscriber
             $twitter
         );
 
-        if (200 == $this->twitter->getLastHttpCode()) {
+        if (200 === $this->twitter->getLastHttpCode()) {
             $this->logger->notice('Posted on Twitter.', ['twitter' => $twitter]);
         } else {
             $this->logger->notice('Twitter post failed', ['twitter' => $twitter, 'code' => $this->twitter->getLastHttpCode(), 'body' => $this->twitter->getLastBody()]);
@@ -69,11 +70,11 @@ abstract class AbstractTwitterEventSubscriber extends AbstractEventSubscriber
     }
 
     /**
-     * @param $text
+     * @param string $text
      *
      * @return string
      */
-    public function shortenMessage($text)
+    public function shortenMessage(string $text)
     {
         return $this->brevity->shorten($text);
     }

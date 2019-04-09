@@ -28,7 +28,7 @@ abstract class AbstractTwitterCustomEventSubscriber extends AbstractTwitterEvent
             $twitter
         );
 
-        if (200 == $this->twitter->getLastHttpCode()) {
+        if (200 === $this->twitter->getLastHttpCode()) {
             $this->logger->notice('Posted on Twitter.', ['twitter' => $twitter]);
         } else {
             $this->logger->notice('Twitter post failed', ['twitter' => $twitter, 'body' => $this->twitter->getLastBody()]);

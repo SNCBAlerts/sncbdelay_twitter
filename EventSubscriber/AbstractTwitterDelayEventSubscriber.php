@@ -33,11 +33,11 @@ abstract class AbstractTwitterDelayEventSubscriber extends AbstractTwitterEventS
         $cache2 = $this->cache->getItem($uniqid2)->expiresAfter(new \DateInterval('PT10M'));
 
         if (
+            $departure['time'] > $currentTime - 600 &&
+            $departure['delay'] >= 900 &&
             !$cache1->isHit() &&
             !$cache2->isHit() &&
-            $departure['time'] > $currentTime - 600 &&
-            abs($departure['time'] - $currentTime) <= 1200 &&
-            $departure['delay'] >= 900
+            abs($departure['time'] - $currentTime) <= 1200
         ) {
             $this->process($event);
 

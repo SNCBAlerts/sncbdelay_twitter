@@ -2,6 +2,8 @@
   "name": "drupol/sncbdelay_twitter",
   "type": "symfony-bundle",
   "description": "TODO",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "authors": [
     {
       "name": "Pol Dellaiera",
@@ -10,10 +12,10 @@
   ],
   "require": {
     "ext-mbstring": "*",
-    "symfony/framework-bundle": "~2.7|~3.0|^4.0",
-    "abraham/twitteroauth": "^0.7.2",
-    "twig/twig": "^2.4",
-    "kylewm/brevity": "^0.2.10"
+    "symfony/framework-bundle": "^4",
+    "abraham/twitteroauth": "^1",
+    "twig/twig": "^2",
+    "kylewm/brevity": "^0.2"
   },
   "autoload": {
     "psr-4": {
@@ -21,7 +23,6 @@
     }
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^2.8",
-    "phpspec/phpspec": "^4.2"
+    "friendsofphp/php-cs-fixer": "^2.14"
   }
 }
