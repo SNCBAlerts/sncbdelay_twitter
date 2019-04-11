@@ -7,17 +7,15 @@ use Symfony\Component\EventDispatcher\Event;
 
 class Alert extends AbstractTwitterAlertEventSubscriber
 {
+
     /**
      * @param \Symfony\Component\EventDispatcher\Event $event
+     *
+     * @return mixed
      *
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
-     *
-     * @return mixed
      */
     public function getMessage(Event $event)
     {

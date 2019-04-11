@@ -3,7 +3,7 @@
 namespace drupol\sncbdelay_twitter\EventSubscriber;
 
 use Abraham\TwitterOAuth\TwitterOAuth;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use drupol\sncbdelay\EventSubscriber\AbstractEventSubscriber;
 use Kylewm\Brevity\Brevity;
 use Psr\Cache\CacheItemPoolInterface;
@@ -33,9 +33,9 @@ abstract class AbstractTwitterEventSubscriber extends AbstractEventSubscriber
      * @param \Twig\Environment $twig
      * @param \Psr\Log\LoggerInterface $logger
      * @param \Psr\Cache\CacheItemPoolInterface $cache
-     * @param \Doctrine\ORM\EntityManager $doctrine
+     * @param \Doctrine\ORM\EntityManagerInterface $doctrine
      */
-    public function __construct(TwitterOAuth $twitter, Brevity $brevity, ContainerBagInterface $parameters, Environment $twig, LoggerInterface $logger, CacheItemPoolInterface $cache, EntityManager $doctrine)
+    public function __construct(TwitterOAuth $twitter, Brevity $brevity, ContainerBagInterface $parameters, Environment $twig, LoggerInterface $logger, CacheItemPoolInterface $cache, EntityManagerInterface $doctrine)
     {
         $this->twitter = $twitter;
         $this->brevity = $brevity;
